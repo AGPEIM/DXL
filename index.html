@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔍 快交大学习！</h1>
+      <hr class="my-4">
+      <div style="position: relative; display: inline-block; width: 100%; height: 100%;">
+        <textarea id="namelist" class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="输入未完成大学习名单" style="width: 100%; height: 100%;"></textarea>
+        <button type="button" class="btn btn-primary mt-3" id="search" style="position: absolute; bottom: 0; right: 0;" onclick="Search()">查找</button>
+      </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">一班</h5>
+                    <p class="card-text" id="result1"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">二班</h5>
+                    <p class="card-text" id="result2"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">三班</h5>
+                    <p class="card-text" id="result3"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">四班</h5>
+                    <p class="card-text" id="result4"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">五班</h5>
+                    <p class="card-text" id="result5"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">六班</h5>
+                    <p class="card-text" id="result6"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+  <!-- css-->
+    <style>
+        body {
+            background-image: url("bg.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            width: 60%;
+            margin: auto;
+        }
+        @media (max-width: 600px) {
+            body {
+                width: 80%;
+            }
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        h1 {
+            font-weight: bold;
+            font-size: 70px;
+            padding: 20px;
+        }
+        textarea {
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border: none;
+            outline: none;
+            resize: none;
+        }
+        row {
+            margin-top: 20px;
+        }
+        #search {
+            border-radius: 40px;
+            padding: 10px 20px;
+            margin: 10px;
+        }
+        .card {
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-weight: bold;
+            font-size: 30px;
+        }
+    </style>
+    <script>
+        // 生成随机浅色系颜色的函数
+        function getRandomLightColor() {
+            var r = Math.floor(Math.random() * 128) + 127;  // 随机生成127-255范围的数
+            var g = Math.floor(Math.random() * 128) + 127;
+            var b = Math.floor(Math.random() * 128) + 127;
+            return "rgba(" + r + "," + g + "," + b + ", 0.5)";
+        }
+        // 为每一个 .card 元素设置随机背景颜色
+        var cards = document.querySelectorAll('.card');
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].style.backgroundColor = getRandomLightColor();
+        }
+        // 查找函数
+        var csvData = '学号,姓名,班级\n2023124329,李雲帆,1班\n2023114224,施赛星,1班\n2023114231,刘金正,1班\n2023114253,张成龙,1班\n2023114283,宋裕,1班\n2023124305,杨鑫,1班\n2023114246,郑坤昌,1班\n2023114229,徐雨隆,1班\n2023124318,席寒冰,1班\n2023124322,邹成,1班\n2023114228,朱起贤,1班\n2023124303,吴晨,1班\n2023124323,祝宇箫,1班\n2023124328,谢景源,1班\n2023124330,江明晟,1班\n2023114234,李鹏成,1班\n2023114237,汪传勇,1班\n2023114240,曹泽林,1班\n2023114256,周方栋,1班\n2023124321,李宇龙,1班\n2023114250,邢倍源,1班\n2023114251,王培军,1班\n2023124291,邱宇杰,1班\n2023124340,张现航,1班\n2023114267,范张齐,2班\n2023114269,杨凯,2班\n2023114270,蒋鑫洲,2班\n2023124300,雷虎,2班\n2023124301,刘骏程,2班\n2023124310,赵子晗,2班\n2023124314,陈建军,2班\n2023124326,周子威,2班\n2023114232,孙靖宇,2班\n2023114238,朱光耀,2班\n2023114258,李荣晖,2班\n2023114265,张登,2班\n2023114235,徐俊亮,2班\n2023114247,王浩杰,2班\n2023124293,潘世炼,2班\n2023124299,李高鸿,2班\n2023114230,钱宇飞,2班\n2023124333,曾啸宇,2班\n2023124334,尹文韬,2班\n2023124335,唐明杨,2班\n2023114281,王国辉,2班\n2023114282,付梓栗,2班\n2023124317,肖谟贤,2班\n2023124346,谭天健,2班\n2023124331,陈龙,2班\n2023124336,娄俊,2班\n2023124344,刘志冰,2班\n2023124347,周良伟,2班\n2023124302,吕厚霖,3班\n2023124316,曾志强,3班\n2023124338,万梦晨,3班\n2023124348,朱恒,3班\n2023114244,黄智均,3班\n2023114263,邱昱昂,3班\n2023124290,金力,3班\n2023114264,邓正宇,3班\n2023114233,石旺梓,3班\n2023114259,胡志海,3班\n2023114260,夏展轩,3班\n2023114272,陈麒戎,3班\n2023114266,余滇,3班\n2023124295,王岳,3班\n2023124319,李翊棐,3班\n2023124324,吴迪,3班\n2023124309,马昊聪,3班\n2023114220,刘笑,3班\n2023124307,王一帆,3班\n2023124296,郑文轩,3班\n2023124320,孔世纪,3班\n2023124332,曾爽,3班\n2023124342,于福荣,3班\n2023114210,刘晨旭,3班\n2023114212,李凯龙,3班\n2023114216,黄镜彬,3班\n2023114225,任伟刚,3班\n2023114257,黄昱,4班\n2023124339,杨铠豪,4班\n2023124343,李建欣,4班\n2023124350,方钦,4班\n2023114203,吴洵,4班\n2023114206,周旭,4班\n2023114209,张玉玺,4班\n2023114221,饶国锋,4班\n2023114239,周莫天,4班\n2023114245,吴克彪,4班\n2023114275,邓明昊,4班\n2023124311,周飞来,4班\n2023114205,邓磊,4班\n2023114207,杨同炼,4班\n2023114227,徐明礼,4班\n2023124297,蔡帆,4班\n2023114241,赵愈炜,4班\n2023114242,熊子卓,4班\n2023114255,方洋,4班\n2023114288,袁攀,4班\n2023114217,任德博,4班\n2023124312,孟聪,4班\n2023124298,谢泽靖,4班\n2023124315,章文田,4班\n2023124325,张英浩,4班\n2023114271,田会林,5班\n2023114204,付穗子,5班\n2023124294,丁宁,5班\n2023124313,江诗云,5班\n2023124327,尹倩,5班\n2023114261,张美沂,5班\n2023114276,庄晓玲,5班\n2023114279,郑彤,5班\n2023124304,徐丹璐,5班\n2023114226,王姝彤,5班\n2023114268,杨若愚,5班\n2023114214,徐围,5班\n2023114262,曾贤,5班\n2023124306,高露,5班\n2023114202,郑一佳,5班\n2023114213,李雯卉,5班\n2023114215,李璇,5班\n2023124341,肖宜美,5班\n2023114273,邵潇漩,5班\n2023124289,覃湲,5班\n2023124337,余婷,5班\n2023124349,周思雨,5班\n2023114277,周思田,6班\n2023114278,刘星月,6班\n2023114274,郑好,6班\n2023114280,陈晓晴,6班\n2023114219,丁玉欣,6班\n2023114222,杨悦,6班\n2023114254,李雪,6班\n2023124345,任娟,6班\n2023114211,郭贞呈,6班\n2023114248,孙雪曼,6班\n2023114249,马富梅,6班\n2023124292,聂紫洁,6班\n2023114208,王欣悦,6班\n2023114236,欧阳芷晴,6班\n2023114243,杨榕,6班\n2023114252,屈仁弟,6班\n2023114218,张倩,6班\n2023114286,魏馨悦,6班\n2023114287,钱诗佳,6班\n2023124308,朱文慧,6班\n2023114284,朱俊雅,6班\n'
+
+        function Search() {
+            // 清空card中的内容
+            for (let i = 1; i <= 6; i++) {
+                const cardText = document.getElementById(`result${i}`);
+                cardText.innerText = '';
+            }
+              // 将CSV数据转换为数组
+            const dataArray = csvData.split('\n').map(row => row.split(','));
+
+            // 获取textarea中的名字
+            const textareaValue = document.getElementById('namelist').value;
+            const names = textareaValue.split('\n');
+
+            // 遍历名字数组
+            names.forEach(name => {
+                // 查找名字在CSV数据中的对应班级
+                const result = dataArray.find(row => row[1] === name);
+                // 更新对应的card中的内容
+                if (result) {
+                    const classIndex = result[2].split('班')[0]
+                    const cardText = document.getElementById(`result${classIndex}`);
+                    cardText.innerHTML += `${result[1]}&nbsp;&nbsp;`;
+                }
+            });
+        }
+    </script>
+</html>
